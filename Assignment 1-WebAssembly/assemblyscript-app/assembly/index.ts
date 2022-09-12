@@ -1,16 +1,19 @@
 // The entry file of your WebAssembly module.
 
-const usedLetters: string[][] = []
-const emptyArray: string[]  = []
+const place1: string[]  = []
+const place2: string[]  = []
+const place3: string[]  = []
+const place4: string[]  = []
+const place5: string[]  = []
 
 let number = 0;
 
 for(let i = 0; i < 26; i++){
-  emptyArray.push("0");
-}
-for(let i = 0; i < 5; i++){
-  usedLetters.push(emptyArray);
-
+  place1.push("0");
+  place2.push("0");
+  place3.push("0");
+  place4.push("0");
+  place5.push("0");
 }
 
 const WORDS = [
@@ -5789,23 +5792,52 @@ export function letterUsed(guess: String): boolean{
   let letters = guess.split('');
  
    for (let i = 0; i < 5; i++) {
-     for (let j = 0; j < 26; j++){
-      //console.log(usedLetters[i][j]);
-       if (usedLetters[i][j] != "0" &&  usedLetters[i][j] === letters[i]){
-         return true;
-       }
-     }
+    switch (i){
+      case 0:
+        for (let j = 0; j < 26; j++){
+          if (place1[j] != "0" &&  place1[j] === letters[i]){
+            return true;
+          }
+        }
+      break;
+      case 1:
+        for (let j = 0; j < 26; j++){
+          if (place2[j] != "0" &&  place2[j] === letters[i]){
+            return true;
+          }
+        }
+      break;
+      case 2:
+        for (let j = 0; j < 26; j++){
+          if (place3[j] != "0" &&  place3[j] === letters[i]){
+            return true;
+          }
+        }
+      break;
+      case 3:
+        for (let j = 0; j < 26; j++){
+          if (place4[j] != "0" &&  place4[j] === letters[i]){
+            return true;
+          }
+        }
+      break;
+      case 4:
+        for (let j = 0; j < 26; j++){
+          if (place5[j] != "0" &&  place5[j] === letters[i]){
+            return true;
+          }
+        }
+      break;
+    }
    }
 
-   usedLetters[0][number] = guess.charAt(0);
-   //console.log(usedLetters[0][number]);
-   usedLetters[1][number] = letters[1];
-   usedLetters[2][number] = letters[2];
-   usedLetters[3][number] = letters[3];
-   usedLetters[4][number] = letters[4];
+   place1[number] = letters[0];
+   place2[number] = letters[1];
+   place3[number] = letters[2];
+   place4[number] = letters[3];
+   place5[number] = letters[4];
+   
    number++;
-
-
    return false; 
  }
 
@@ -5820,23 +5852,12 @@ export function check(word: string): string{
     return "Not in my dictionary.";
   }
   else if (!letterUsed(word)) {
-    console.log(usedLetters[0][number-1]);
-    console.log(usedLetters[1][number-1]);
-    console.log(usedLetters[2][number-1]);
-    console.log(usedLetters[3][number-1]);
-    console.log(usedLetters[4][number-1]);
     let str = word + " - ";
     return str;
   }
   else {
-    let s = "";
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 26; j++){
-        s = s +"[" + i.toString() + "][" + j.toString() + "]: " + usedLetters[i][j] + "<br/>";
-      }
-    }
 
-    return s;
+    return "you've already used a letter";
   }
 
   
