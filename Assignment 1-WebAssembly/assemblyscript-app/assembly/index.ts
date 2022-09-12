@@ -5782,7 +5782,6 @@ export function isWord(guess: String): boolean{
       return true;
     }
   }
-
   return false;
 
 }
