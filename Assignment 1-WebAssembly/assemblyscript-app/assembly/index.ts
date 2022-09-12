@@ -1,17 +1,14 @@
 // The entry file of your WebAssembly module.
 
-const place_1: string[] = []
-const place_2: string[] = []
-const place_3: string[] = []
-const place_4: string[] = []
-const place_5: string[] = []
+const usedLetters: string[][] = []
+const emptyArray: string[]  = []
 
 for(let i = 0; i < 26; i++){
-  place_1.push("0");
-  place_2.push("0");
-  place_3.push("0");
-  place_4.push("0");
-  place_5.push("0");
+  emptyArray.push("0");
+}
+for(let i = 0; i < 5; i++){
+  usedLetters.push(emptyArray);
+
 }
 
 const WORDS = [
@@ -5785,6 +5782,27 @@ export function isWord(guess: String): boolean{
   return false;
 
 }
+
+export function letterUsed(guess: String): boolean{
+  let letters = guess.split('');
+ 
+   for (let i = 0; i < 5; i++) {
+     for (let j = 0; j < usedLetters[i].length; j++){
+       if (usedLetters[i][j] != null &&  usedLetters[i][j] === letters[i]){
+         return true;
+       }
+     }
+ 
+     for (let j = 0; j < usedLetters[i].length; j++){
+       if (usedLetters[i][j] == null){
+         usedLetters[i][j] = letters[i];
+         break;
+       }
+     }
+   }
+ 
+   return false; 
+ }
 
 
 export function check(word: string): string{
