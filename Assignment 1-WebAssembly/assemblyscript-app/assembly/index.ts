@@ -5787,37 +5787,50 @@ export function letterUsed(guess: String): boolean{
   let letters = guess.split('');
  
    for (let i = 0; i < 5; i++) {
-     for (let j = 0; j < usedLetters[i].length; j++){
-       if (usedLetters[i][j] != null &&  usedLetters[i][j] === letters[i]){
+     for (let j = 0; j < 26; j++){
+       if (usedLetters[i][j] != "0" &&  usedLetters[i][j] === letters[i]){
          return true;
        }
      }
- 
-     for (let j = 0; j < usedLetters[i].length; j++){
-       if (usedLetters[i][j] == null){
-         usedLetters[i][j] = letters[i];
-         break;
-       }
-     }
    }
- 
+
+   for (let j = 0; j < 26; j++){
+    if (usedLetters[0][j] == "0"){
+      usedLetters[0][j] = letters[0];
+      usedLetters[1][j] = letters[1];
+      usedLetters[2][j] = letters[2];
+      usedLetters[3][j] = letters[3];
+      usedLetters[4][j] = letters[4];
+      break;
+    }
+  }
+
    return false; 
  }
 
 
 export function check(word: string): string{
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 26; j++){
+      console.log("[" + i.toString() + "][" + j.toString() + "]: " + usedLetters[i][j]);
+    }
+  }
+
   if (word.length != 5) {
     return "Not five letters.";
   }
   else if (!isWord(word)){
     return "Not in my dictionary.";
   }
-  else {
+  else if (!letterUsed(word)) {
     let str = word + " - ";
     return str;
   }
-  // else if (!letterUsed(word)) {
-  //   console.log(word + " - ");
-  // }
+  else {
+    return "you've already used one of those letters";
+  }
+
+  
+
 
 }
