@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A Short WebAssembly Tutorial</title>
+        <link rel="stylesheet" href="Style/style.css">
+    </head>
+    <body>
+        <h1>An AssemblyScript Tutorial</h1>
+
+    <div >
+        <p>This AssemblyScript tutorial will take you through the following key steps:
+            <ol>
+                <li><a href="#nodejs">Installing and Setting Up Node.js</a></li>
+                <li><a href="#assemblyscript">Getting AssemblyScript Working</a></li>
+                <li><a href="#application">Creating a simple application using the software you've installed</a></li>
+            </ol>
+        </p>
+
+        <h2 id="nodejs">Installing and Setting Up Node.js</h2>
+        <ol>
+            <li>If you haven't installed Node.js, go to <a href="https://nodejs.org/en/" target="_blank">nodejs.org</a> and download the setup wizard.</li>
+            <li>Open Node.js command prompt</li>
+            <li>Navigate to the folder where you plan on working 
+                <blockquote>
+                    <code> <span class="cmdprompt">C:\Users\andrea&gt; </span> cd Documents</code>
+                </blockquote>
+            </li>
+            <li>Create a new directory for your application and initialize npm: 
+                <blockquote>
+                    <code><span class="cmdprompt">C:\Users\andrea\Documents&gt; </span>  mkdir assemblyscript-app</code></br>
+                    <code><span class="cmdprompt">C:\Users\andrea\Documents&gt; </span> cd assemblyscript-app</code></br>
+                    <code><span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm init</code>
+                </blockquote>
+            </li>
+            <li>Press enter in response to all of the prompts</li>
+        </ol>
+
+        <h2 id="assemblyscript">Getting AssemblyScript Working</h2>
+        <ol>
+            <li>AssemblyScript is like any other npm package. This means that any dependencies that you need to install can be done using <code>npm install</code>.
+            <blockquote>
+                <code><span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm install --save @assemblyscript/loader</code>
+            </blockquote>
+            </li>
+            <li>If you look at package.json (either by opening it in a text editor, or running <code>more package.json</code> in the node.js terminal), you should see something like this:
+                <blockquote class="codefile"><code>
+                    {<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"name": "assemblyscript-app",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"version": "1.0.0",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"description": "",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"main": "index.js",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"scripts": {<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"test": "echo \"Error: no test specified\" && exit 1"<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"author": "",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"license": "ISC",<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"dependencies": {<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"@assemblyscript/loader": "^0.21.3"<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+                    }
+                </code></blockquote>
+            </li>
+            <li> Next, we install AssemblyScript itself:
+                <blockquote>
+                    <code><span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm install --save-dev assemblyscript</code>
+                </blockquote>
+            </li>
+            <li>The AssemblyScript compiler provides a handy scaffolding utility to quickly set up a new project in the current directory:
+                <blockquote>
+                    <code><span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npx asinit .</code>
+                </blockquote>
+            </li>
+            <li>This will create several directories and files. At this point (if you haven't yet) you should open the assemblyscript-app folder 
+                in a text editor of your choice. Make sure you see a folder called <span class="rose">assembly</span> and open it. Within it, you should see 
+                <span class="rose">index.ts</span>, which is where we'll be writing our code!
+            </li>
+            
+        </ol>
+
+        <h2 id="application">Creating a simple application using the software you've installed</h2>
+        <h4><i>/* <br/>
+            * If your text editor has some form of built-in TypeScript checking <span style="color: #eee; text-decoration: underline;">tsconfig.json</span>, <br/>
+            * which is also in the assembly folder, will look like it has errors. You can ignore them.<br/>
+            */</i>
+        </h4>
+        <ol>
+            <li><span class="rose">index.ts</span> starts with a simple addition function:
+                <blockquote class="codefile">
+                    <code>
+                        <span class="rose">export function</span> add 
+                        <span class="pear">(</span><span class="blush">a</span><span class="white">:</span> <span class="neonblue">i32</span><span class="white">,</span>
+                        <span class="blush">b</span><span class="white">:</span> <span class="neonblue">i32</span><span class="pear">)</span><span class="white">:</span> <span class="neonblue">i32</span>
+                        <span class="pear">{</span> <br/>
+                         &nbsp;&nbsp;&nbsp;&nbsp; <span class="rose">return</span> <span class="blush">a</span> <span class="neonblue">+</span> <span class="blush">b</span><span class="white">;</span> <br/>
+                         <span class="pear">}</span>
+                    </code>
+                </blockquote>
+                It's made to add two numbers, and if you want to test it (just to generally see how AssemblyScript works), you can do that by running these commands in the Node.js command prompt:
+
+                <blockquote>
+                    <code>
+                        <span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm run asbuild <span style="color: #ddd;"><i>//this compiles the code in index.ts to WebAssembly</i></span><br/> 
+                        <span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm test <span style="color: #ddd;"><i>//this executes the test case in tests/index.js</i></span><br/>
+                        <span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm start <span style="color: #ddd;"><i>//this starts a web server, which will serve index.html</i></span>
+                    </code>
+                </blockquote>
+
+                Node.js will copy the address of the webpage where index.html is being served to your keyboard. If you paste it into a browser, 
+                it should be displaying a number on the page— the sum of the two numbers given as input in <span class="rose">tests/index.js</span>. To play around with it, 
+                try change the numbers and run these commands again.<br/>
+
+                To stop the web server, use <span class="rose"> CTRL + C</span> twice.
+            </li>
+            <li>
+                Now we're going to create something new. You can remove the add function from <span class="rose">assembly/index.ts</span>.
+            </li>
+        
+
+
+        </ol>
+    </div>
+    </body>
+
+
+      
+</html>
