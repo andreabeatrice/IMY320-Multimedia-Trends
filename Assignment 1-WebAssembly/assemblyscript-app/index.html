@@ -13,7 +13,9 @@
 
     <input type="text" id="guess" name="guess">
     
-    <button onclick="checkWord()">Guess</button>
+    <button onclick="checkWord()" id="guessbutton">Guess</button>
+
+    <button onclick="rs()" id="restart">Try Again?</button>
 
     <p id="history"></p>
 
@@ -22,9 +24,23 @@
         function checkWord() {
             var guess = document.getElementById("guess").value;
 
-            document.getElementById("history").innerHTML = document.getElementById("history").innerHTML + check(guess);
+            var checkResult = check(guess);
+
+            if(checkResult.length > 8){
+                document.getElementById("history").innerHTML = checkResult;
+                document.getElementById("guessbutton").style.visibility = false; 
+            }
+            else {
+                document.getElementById("history").innerHTML = document.getElementById("history").innerHTML + checkResult;
+            }
+
+            
 
             document.getElementById("guess").value = "";
+        }
+        
+        function rs(){
+            
         }
     </script>
 </body>
