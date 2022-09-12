@@ -122,8 +122,8 @@
             <li>mojpal is based on three key functions:
                 <ul>
                     <li><a href="#isWord">Function #1</a>: <code>isWord(guess)</code>, which takes a string and returns <code>true</code> or <code>false</code> based on whether the string matches any of the strings in a dictionary array</li>
-                    <li>Function #2: <code>letterUsed(guess)</code>, which checks each letter of the string against an array of the characters previously used at that position, and returns <code>true</code> if it finds a match and <code>false</code> if the letter placement is unique</li>
-                    <li>Function #3: <code>check(word)</code>, which runs the other functions and returns a string result</li>
+                    <li><a href="#letterUsed">Function #2</a>: <code>letterUsed(guess)</code>, which checks each letter of the string against an array of the characters previously used at that position, and returns <code>true</code> if it finds a match and <code>false</code> if the letter placement is unique</li>
+                    <li><a href="#check">Function #3</a>: <code>check(word)</code>, which runs the other functions and returns a string result</li>
                 </ul>
             </li>
             <li> The first step of creating Mojpal is creating the variables we'll use in <span class="rose">assembly/index.ts</span>:
@@ -164,7 +164,87 @@ for(let i = 0; i < 26; i++){
   }</code></pre>
 </blockquote>
             </li>
-        
+            <li id="letterUsed">
+                Now we create <code>letterUsed(guess)</code>, which will loop through every letter stored for each position and return <code>true</code> if the letter has already been used. If the owrd is unique, it will add the new letters to the storage arrays.
+<blockquote>
+<pre><code>export function letterUsed(guess: String): boolean{
+    let letters = guess.split('');
+     for (let i = 0; i < 5; i++) {
+      switch (i){
+        case 0:
+          for (let j = 0; j < 26; j++){
+            if (place1[j] != "0" &&  place1[j] === letters[i]){
+              return true;
+            }
+          }
+        break;
+        case 1:
+          for (let j = 0; j < 26; j++){
+            if (place2[j] != "0" &&  place2[j] === letters[i]){
+              return true;
+            }
+          }
+        break;
+        case 2:
+          for (let j = 0; j < 26; j++){
+            if (place3[j] != "0" &&  place3[j] === letters[i]){
+              return true;
+            }
+          }
+        break;
+        case 3:
+          for (let j = 0; j < 26; j++){
+            if (place4[j] != "0" &&  place4[j] === letters[i]){
+              return true;
+            }
+          }
+        break;
+        case 4:
+          for (let j = 0; j < 26; j++){
+            if (place5[j] != "0" &&  place5[j] === letters[i]){
+              return true;
+            }
+          }
+        break;
+      }
+     }
+     place1[number] = letters[0];
+     place2[number] = letters[1];
+     place3[number] = letters[2];
+     place4[number] = letters[3];
+     place5[number] = letters[4];
+     number++;
+     return false; 
+   }</code></pre>
+</blockquote>
+            </li>
+            <li id="check">
+                Lastly for <span class="rose">index.ts</span>, we create <code>check()</code>, which will:
+                <ul>
+                    <li>Test if the user's guess is five letters long</li>
+                    <li>Then test if the user's guess is a real word</li>
+                    <li><i>Then</i> test that none if the letters of that word have already been used in the same position</li>
+                    <li>And finally return a result in the form of a string</li>
+                </ul>
+
+<blockquote>
+<pre><code>export function check(word: string): string{
+    if (word.length != 5) {
+      return "Not five letters.";
+    }
+    else if (!isWord(word)){
+      return "Not in my dictionary.";
+    }
+    else if (!letterUsed(word)) {
+      let str = word + " - ";
+      return str;
+    }
+    else {
+      return "you've already used a letter";
+    }
+  }</code></pre>
+</blockquote>
+            </li>
 
 
         </ol>
