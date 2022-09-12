@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
 <script type="module">
-import { add } from "./build/release.js";
-document.body.innerText = add(1, 2);
+    import { check } from "./build/release.js";
+
+    //document.body.innerText = add(1, 2);
+    window.check = check;
 </script>
 </head>
-<body></body>
+<body>
+
+
+    <input type="text" id="guess" name="guess">
+    
+    <button onclick="checkWord()">Guess</button>
+
+    <script>
+    
+        function checkWord() {
+            var guess = document.getElementById("guess").value;
+
+            check(guess);
+
+            document.getElementById("guess").value = "";
+        }
+    </script>
+</body>
 </html>
