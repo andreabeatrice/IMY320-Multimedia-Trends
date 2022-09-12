@@ -3,6 +3,8 @@
 const usedLetters: string[][] = []
 const emptyArray: string[]  = []
 
+let number = 0;
+
 for(let i = 0; i < 26; i++){
   emptyArray.push("0");
 }
@@ -5788,33 +5790,28 @@ export function letterUsed(guess: String): boolean{
  
    for (let i = 0; i < 5; i++) {
      for (let j = 0; j < 26; j++){
+      //console.log(usedLetters[i][j]);
        if (usedLetters[i][j] != "0" &&  usedLetters[i][j] === letters[i]){
          return true;
        }
      }
    }
 
-   for (let j = 0; j < 26; j++){
-    if (usedLetters[0][j] == "0"){
-      usedLetters[0][j] = letters[0];
-      usedLetters[1][j] = letters[1];
-      usedLetters[2][j] = letters[2];
-      usedLetters[3][j] = letters[3];
-      usedLetters[4][j] = letters[4];
-      break;
-    }
-  }
+   usedLetters[0][number] = guess.charAt(0);
+   //console.log(usedLetters[0][number]);
+   usedLetters[1][number] = letters[1];
+   usedLetters[2][number] = letters[2];
+   usedLetters[3][number] = letters[3];
+   usedLetters[4][number] = letters[4];
+   number++;
+
 
    return false; 
  }
 
 
 export function check(word: string): string{
-  for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 26; j++){
-      console.log("[" + i.toString() + "][" + j.toString() + "]: " + usedLetters[i][j]);
-    }
-  }
+
 
   if (word.length != 5) {
     return "Not five letters.";
@@ -5823,11 +5820,23 @@ export function check(word: string): string{
     return "Not in my dictionary.";
   }
   else if (!letterUsed(word)) {
+    console.log(usedLetters[0][number-1]);
+    console.log(usedLetters[1][number-1]);
+    console.log(usedLetters[2][number-1]);
+    console.log(usedLetters[3][number-1]);
+    console.log(usedLetters[4][number-1]);
     let str = word + " - ";
     return str;
   }
   else {
-    return "you've already used one of those letters";
+    let s = "";
+    for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 26; j++){
+        s = s +"[" + i.toString() + "][" + j.toString() + "]: " + usedLetters[i][j] + "<br/>";
+      }
+    }
+
+    return s;
   }
 
   

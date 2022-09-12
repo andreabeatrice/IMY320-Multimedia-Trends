@@ -15,12 +15,14 @@
     
     <button onclick="checkWord()">Guess</button>
 
+    <p id="history"></p>
+
     <script>
     
         function checkWord() {
             var guess = document.getElementById("guess").value;
 
-            console.log(check(guess));
+            document.getElementById("history").innerHTML = document.getElementById("history").innerHTML + check(guess);
 
             document.getElementById("guess").value = "";
         }
