@@ -124,6 +124,7 @@
                     <li><a href="#isWord">Function #1</a>: <code>isWord(guess)</code>, which takes a string and returns <code>true</code> or <code>false</code> based on whether the string matches any of the strings in a dictionary array</li>
                     <li><a href="#letterUsed">Function #2</a>: <code>letterUsed(guess)</code>, which checks each letter of the string against an array of the characters previously used at that position, and returns <code>true</code> if it finds a match and <code>false</code> if the letter placement is unique</li>
                     <li><a href="#check">Function #3</a>: <code>check(word)</code>, which runs the other functions and returns a string result</li>
+                    <li><a href="#reset">Function #4</a>: <code>reset()</code>, which clears all the saved information and restarts the game</li>
                 </ul>
             </li>
             <li> The first step of creating Mojpal is creating the variables we'll use in <span class="rose">assembly/index.ts</span>:
@@ -219,7 +220,7 @@ for(let i = 0; i < 26; i++){
 </blockquote>
             </li>
             <li id="check">
-                Lastly for <span class="rose">index.ts</span>, we create <code>check()</code>, which will:
+                Most importantly for <span class="rose">index.ts</span>, we create <code>check()</code>, which will:
                 <ul>
                     <li>Test if the user's guess is five letters long</li>
                     <li>Then test if the user's guess is a real word</li>
@@ -245,7 +246,80 @@ for(let i = 0; i < 26; i++){
   }</code></pre>
 </blockquote>
             </li>
+            <li id="reset">And lastly we create a simple function that will reset number and each of the arrays of stored letters:
+<blockquote>
+<pre><code> export function reset(): void {
+    let number = 0;
+    for(let i = 0; i < 26; i++){
+      place1.push("0");
+      place2.push("0");
+      place3.push("0");
+      place4.push("0");
+      place5.push("0");
+    }
+}</code></pre>
+</blockquote>
+            </li>
+            <li>
+                The last step is to update <span class="rose">index.html</span> so that it can use these functions we've created.
+                Remove everything that the file generates by default and replace it with this:
+<blockquote>
+<pre><code>&lt;!DOCTYPE html&gt;
+    &lt;html lang="en"&gt;
+    &lt;head&gt;
+        &lt;title&gt;mojpal&lt;/title&gt;<span style="color: #ddd;"><i> &lt;!--this changes the name of the webpage in your tabs--&gt;</i></span>
+        &lt;script type="module"&gt;
+            <span style="color: #ddd;"><i>//import { methodname } is how we call the function from where it was built as Web Assembly</i></span>
+            import { check } from "./build/release.js";
+            import { reset } from "./build/release.js";
+            <span style="color: #ddd;"><i>//this is how we make it availableto the whole page, so that we can use it later</i></span>
+            window.check = check;
+            window.reset = reset;
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        <span style="color: #ddd;"><i> &lt;!--this is where the player will type out their guess--&gt;</i></span>
+        &lt;input type="text" id="guess" name="guess"&gt; 
 
+        <span style="color: #ddd;"><i> &lt;!--this button calls a local JavaScript function which will then call check() from index.ts--&gt;</i></span>
+        &lt;button onclick="checkWord()" id="guessbutton"&gt;Guess&lt;/button&gt;
+
+        <span style="color: #ddd;"><i> &lt;!--this button resets the game by calling a a local JavaScript function--&gt;
+        &lt;!--which will then call reset() from index.ts--&gt;</i></span>
+        &lt;button onclick="rs()" id="restart"&gt;Try Again?&lt;/button&gt;
+    
+        <span style="color: #ddd;"><i> &lt;!--this paragraph displays the list of words the player has guessed so far, or why they lost--&gt;</i></span>
+        &lt;p id="history"&gt;&lt;/p&gt;
+    
+        &lt;script&gt;
+        var history_list = document.getElementById("history");
+        document.getElementById("restart").style.visibility = false; <span style="color: #ddd;"><i>//player shouldn't be able to try again yet</i></span>
+            function checkWord() {
+                var guess = document.getElementById("guess").value;
+                var checkResult = check(guess);
+                if(checkResult.length &gt; 8){ <span style="color: #ddd;"><i>//if there is an error message</i></span>
+                    history_list.innerHTML = checkResult;
+                    document.getElementById("guessbutton").style.visibility = false; 
+                    document.getElementById("restart").style.visibility = true; 
+                }
+                else {
+                    history_list.innerHTML = history_list.innerHTML + checkResult;
+                }
+                <span style="color: #ddd;"><i>//resets the inpurt field for player convenience</i></span>
+                document.getElementById("guess").value = "";
+            }
+            
+            function rs(){
+                reset();
+                document.getElementById("guessbutton").style.visibility = true; 
+                document.getElementById("restart").style.visibility = false;
+                history_list.innerHTML = ""; 
+            }
+        &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;</code></pre>
+</blockquote>
+            </li>
 
         </ol>
     </div>

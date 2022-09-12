@@ -5841,6 +5841,18 @@ export function letterUsed(guess: String): boolean{
    return false; 
  }
 
+ export function reset(): void {
+  let number = 0;
+
+  for(let i = 0; i < 26; i++){
+    place1.push("0");
+    place2.push("0");
+    place3.push("0");
+    place4.push("0");
+    place5.push("0");
+  }
+ }
+
 
 export function check(word: string): string{
 
@@ -5859,8 +5871,5 @@ export function check(word: string): string{
 
     return "you've already used a letter";
   }
-
-  
-
 
 }

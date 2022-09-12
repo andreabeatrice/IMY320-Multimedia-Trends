@@ -1,47 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<script type="module">
-    import { check } from "./build/release.js";
+    <html lang="en">
+    <head>
+        <title>mojpal</title> <!--this changes the name of the webpage in your tabs-->
+        <script type="module">
+            //import { methodname } is how we call the function from where it was built as Web Assembly
+            import { check } from "./build/release.js";
+            import { reset } from "./build/release.js";
+            //this is how we make it availableto the whole page, so that we can use it later
+            window.check = check;
+            window.reset = reset;
+        </script>
+    </head>
+    <body>
+         <!--this is where the player will type out their guess-->
+        <input type="text" id="guess" name="guess"> 
 
-    //document.body.innerText = add(1, 2);
-    window.check = check;
-</script>
-</head>
-<body>
+         <!--this button calls a local JavaScript function which will then call check() from index.ts-->
+        <button onclick="checkWord()" id="guessbutton">Guess</button>
 
-
-    <input type="text" id="guess" name="guess">
+         <!--this button resets the game by calling a a local JavaScript function-->
+        <!--which will then call reset() from index.ts-->
+        <button onclick="rs()" id="restart">Try Again?</button>
     
-    <button onclick="checkWord()" id="guessbutton">Guess</button>
-
-    <button onclick="rs()" id="restart">Try Again?</button>
-
-    <p id="history"></p>
-
-    <script>
+         <!--this paragraph displays the list of words the player has guessed so far, or why they lost-->
+        <p id="history"></p>
     
-        function checkWord() {
-            var guess = document.getElementById("guess").value;
-
-            var checkResult = check(guess);
-
-            if(checkResult.length > 8){
-                document.getElementById("history").innerHTML = checkResult;
-                document.getElementById("guessbutton").style.visibility = false; 
+        <script>
+        var history_list = document.getElementById("history");
+        document.getElementById("restart").style.visibility = false; //player shouldn't be able to try again yet
+            function checkWord() {
+                var guess = document.getElementById("guess").value;
+                var checkResult = check(guess);
+                if(checkResult.length > 8){ //if there is an error message
+                    history_list.innerHTML = checkResult;
+                    document.getElementById("guessbutton").style.visibility = false; 
+                    document.getElementById("restart").style.visibility = true; 
+                }
+                else {
+                    history_list.innerHTML = history_list.innerHTML + checkResult;
+                }
+                //resets the inpurt field for player convenience
+                document.getElementById("guess").value = "";
             }
-            else {
-                document.getElementById("history").innerHTML = document.getElementById("history").innerHTML + checkResult;
+            
+            function rs(){
+                reset();
+                document.getElementById("guessbutton").style.visibility = true; 
+                document.getElementById("restart").style.visibility = false;
+                history_list.innerHTML = ""; 
             }
-
-            
-
-            document.getElementById("guess").value = "";
-        }
-        
-        function rs(){
-            
-        }
-    </script>
-</body>
-</html>
+        </script>
+    </body>
+    </html>
