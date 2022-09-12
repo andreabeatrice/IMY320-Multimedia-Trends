@@ -116,9 +116,54 @@
                 Now we're going use AssemblyScript to create a word game called Mojpal. You can start by removing the <code>add()</code> function from <span class="rose">assembly/index.ts</span>.
             </li>
             <li>The premise of Mojpal is fairly simple: 
-                <h4>How many five-letter words can a player come up with without resuing the placement of the letters?</h4>
-
-                </li>
+                <h4 style ="text-align: center; text-decoration: underline;"><span class="blush">How many five-letter words can a player come up with without resuing the placement of the letters?</span></h4>
+                And we're going to create it in <span class="rose">index.html</span> and <span class="rose">assembly/index.ts</span>
+            </li>
+            <li>mojpal is based on three key functions:
+                <ul>
+                    <li><a href="#isWord">Function #1</a>: <code>isWord(guess)</code>, which takes a string and returns <code>true</code> or <code>false</code> based on whether the string matches any of the strings in a dictionary array</li>
+                    <li>Function #2: <code>letterUsed(guess)</code>, which checks each letter of the string against an array of the characters previously used at that position, and returns <code>true</code> if it finds a match and <code>false</code> if the letter placement is unique</li>
+                    <li>Function #3: <code>check(word)</code>, which runs the other functions and returns a string result</li>
+                </ul>
+            </li>
+            <li> The first step of creating Mojpal is creating the variables we'll use in <span class="rose">assembly/index.ts</span>:
+<blockquote>
+<pre><code>const place1: string[]  = []
+const place2: string[]  = []
+const place3: string[]  = []
+const place4: string[]  = []
+const place5: string[]  = []
+let number = 0;
+for(let i = 0; i < 26; i++){
+  place1.push("0");
+  place2.push("0");
+  place3.push("0");
+  place4.push("0");
+  place5.push("0");
+}</code></pre>
+</blockquote>   
+            </li>
+            <li> Next, we have to add a dictionary to check which words are real. We can do this by copying the <code>WORDS</code> array available <a href="https://raw.githubusercontent.com/andreabeatrice/IMY320-Multimedia-Trends/main/words.js" target="_blank">here</a>. When minimized, it should look something like this:
+                <blockquote>
+                    <code>
+                        const WORDS = [·  ·  · <br/>
+                        ]
+                    </code>
+                </blockquote>
+            </li>
+            <li id="isWord">
+                Now we create <code>isWord(guess)</code>, which will loop through every word in <code>WORDS</code> and compare it to the given string:
+<blockquote>
+<pre><code>export function isWord(guess: String): boolean{
+    for (let i = 0; i < WORDS.length; i++) {
+      if (guess.toLowerCase() === WORDS[i]){
+        return true;
+      }
+    }
+    return false;
+  }</code></pre>
+</blockquote>
+            </li>
         
 
 
