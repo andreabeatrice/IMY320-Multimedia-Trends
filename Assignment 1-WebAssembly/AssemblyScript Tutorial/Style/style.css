@@ -1,12 +1,12 @@
 :root {
     --rich_black: #0b0b0b;
-    --rose: #e521af;
-    --middle_bg: #64c9b3;
-    --darker_bg: #0e788c;
+    --rose: #e60764;
+    --middle_bg: #8aeed8;
+    --darker_bg: #03b992;
     --off_white: #f5f5f5;
-    --blush: #cb87ab;
-    --pear: #e6a90d;
-    --too_blue: #60c6bf;
+    --blush: #ffacd8;
+    --pear: #fdfa41;
+    --too_blue: #00f7f7;
     --lighter_black: #222222;
 }
 
