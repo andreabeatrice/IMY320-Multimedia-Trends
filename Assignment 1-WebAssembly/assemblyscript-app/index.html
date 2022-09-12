@@ -20,21 +20,21 @@
 
          <!--this button resets the game by calling a a local JavaScript function-->
         <!--which will then call reset() from index.ts-->
-        <button onclick="rs()" id="restart">Try Again?</button>
+        <button onclick="rs()" id="restart">Restart</button>
     
          <!--this paragraph displays the list of words the player has guessed so far, or why they lost-->
         <p id="history"></p>
     
-        <script>
+        <script type="text/javascript" >
         var history_list = document.getElementById("history");
-        document.getElementById("restart").style.visibility = false; //player shouldn't be able to try again yet
+        document.getElementById("restart").style.display = false; //player shouldn't be able to try again yet
             function checkWord() {
                 var guess = document.getElementById("guess").value;
                 var checkResult = check(guess);
                 if(checkResult.length > 8){ //if there is an error message
                     history_list.innerHTML = checkResult;
-                    document.getElementById("guessbutton").style.visibility = false; 
-                    document.getElementById("restart").style.visibility = true; 
+                    document.getElementById("guessbutton").style.display = false; 
+                    document.getElementById("restart").style.display = true; 
                 }
                 else {
                     history_list.innerHTML = history_list.innerHTML + checkResult;
@@ -45,8 +45,8 @@
             
             function rs(){
                 reset();
-                document.getElementById("guessbutton").style.visibility = true; 
-                document.getElementById("restart").style.visibility = false;
+                document.getElementById("guessbutton").style.display = true; 
+                document.getElementById("restart").style.display = false;
                 history_list.innerHTML = ""; 
             }
         </script>

@@ -3,9 +3,116 @@
 <html>
     <head>
         <title>A Short WebAssembly Tutorial</title>
-        <link rel="stylesheet" href="Style/style.css">
+        <style>
+            :root {
+    --rich_black: #0b0b0b;
+    --rose: #e60764;
+    --middle_bg: #8aeed8;
+    --darker_bg: #03b992;
+    --off_white: #f5f5f5;
+    --blush: #ffacd8;
+    --pear: #fdfa41;
+    --too_blue: #00f7f7;
+    --lighter_black: #222222;
+}
+
+body {
+    background-color: var(--rich_black);
+    color: var(--off_white);
+    font-family: "Consolas", Courier, monospace;
+    font-size: 110%;
+}
+
+h1 {
+    text-align: center;
+}
+
+h4 { 
+    color: #999999;
+}
+
+div {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+a, a:visited {
+    color: var(--blush);
+}
+
+/* ul {
+    list-style: none;
+} */
+
+li {
+    line-height: 2em;
+}
+
+/* li>a, li>a:visited {
+    text-decoration: none;
+    color: var(--off_white);
+}
+
+li>a:hover{
+    color: var(--blush);
+} */
+
+code {
+    border-radius: 0.3em;
+    padding: 2px;
+    margin: 1px;
+    color: var(--middle_bg);
+}
+
+.cmdprompt {
+    color: #f5f5f5;
+}
+
+.rose {
+    color: var(--rose);
+}
+
+.pear {
+    color: var(--pear);
+}
+
+.neonblue {
+    color: var(--too_blue);
+}
+
+.blush {
+    color: var(--blush);
+}
+
+.white {
+    color: var(--off_white);
+}
+
+blockquote {
+    background-color: var(--lighter_black);
+    padding-left: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+        </style>
     </head>
     <body>
+        <h1>An Introduction to WebAssembly</h1>
+        <div >
+        <p style="line-height: 1.5em;">In order to understand the necessity for WebAssembly (WASM), one must first understand that 
+            JavaScript, which is the current default for web app development, uses a Just in Time Compiler. This means that, as web 
+            applications grow more complex, it takes JavaScript longer to compile them, because when each instruction is called, it 
+            has to be individually compiled into something the browser can understand (Low Level Learning 2022).
+        </p>
+
+        <p style="line-height: 1.5em;">WebAssembly was created as a solution to the overhead problem of JavaScript 
+            by compiling applications to byte code (Hayes 2022). This means that the original program can now run on any browser that 
+            supports WASM without the developer having to ensure backwards compatibility or try to translate their OOP program
+            into JavaScript, which means that they can write far more complex applications for the web (Royse 2020). <b>(131 words)</b>
+        </p>
+    </div>
+
+
         <h1>An AssemblyScript Tutorial</h1>
 
     <div >
@@ -267,12 +374,15 @@ for(let i = 0; i < 26; i++){
 <pre><code>&lt;!DOCTYPE html&gt;
     &lt;html lang="en"&gt;
     &lt;head&gt;
-        &lt;title&gt;mojpal&lt;/title&gt;<span style="color: #ddd;"><i> &lt;!--this changes the name of the webpage in your tabs--&gt;</i></span>
+    <span style="color: #ddd;"><i> &lt;!--this changes the name of the webpage in your tabs--&gt;</i></span>
+        &lt;title&gt;mojpal&lt;/title&gt;
         &lt;script type="module"&gt;
-            <span style="color: #ddd;"><i>//import { methodname } is how we call the function from where it was built as Web Assembly</i></span>
+            <span style="color: #ddd;"><i>//import { methodname } is how we call the function 
+            //from where it was built as Web Assembly</i></span>
             import { check } from "./build/release.js";
             import { reset } from "./build/release.js";
-            <span style="color: #ddd;"><i>//this is how we make it availableto the whole page, so that we can use it later</i></span>
+            <span style="color: #ddd;"><i>//this is how we make it availableto the whole page, 
+            //so that we can use it later</i></span>
             window.check = check;
             window.reset = reset;
         &lt;/script&gt;
@@ -281,29 +391,28 @@ for(let i = 0; i < 26; i++){
         <span style="color: #ddd;"><i> &lt;!--this is where the player will type out their guess--&gt;</i></span>
         &lt;input type="text" id="guess" name="guess"&gt; 
 
-        <span style="color: #ddd;"><i> &lt;!--this button calls a local JavaScript function which will then call check() from index.ts--&gt;</i></span>
+        <span style="color: #ddd;"><i> &lt;!--this button calls a local JavaScript --&gt;
+        &lt;!--function which will then call check() from index.ts--&gt;</i></span>
         &lt;button onclick="checkWord()" id="guessbutton"&gt;Guess&lt;/button&gt;
 
-        <span style="color: #ddd;"><i> &lt;!--this button resets the game by calling a a local JavaScript function--&gt;
-        &lt;!--which will then call reset() from index.ts--&gt;</i></span>
-        &lt;button onclick="rs()" id="restart"&gt;Try Again?&lt;/button&gt;
+        <span style="color: #ddd;"><i> &lt;!--this button resets the game by calling a a local JavaScript--&gt;
+        &lt;!-- function which will then call reset() from index.ts--&gt;</i></span>
+        &lt;button onclick="rs()" id="restart"&gt;Restart?&lt;/button&gt;
     
-        <span style="color: #ddd;"><i> &lt;!--this paragraph displays the list of words the player has guessed so far, or why they lost--&gt;</i></span>
+        <span style="color: #ddd;"><i> &lt;!--this paragraph displays the list of words the player--&gt;
+        &lt;!--has guessed so far, or why they lost--&gt;</i></span>
         &lt;p id="history"&gt;&lt;/p&gt;
     
-        &lt;script&gt;
-        var history_list = document.getElementById("history");
-        document.getElementById("restart").style.visibility = false; <span style="color: #ddd;"><i>//player shouldn't be able to try again yet</i></span>
+        &lt;script type="text/javascript" &gt;
+        var history = document.getElementById("history");
             function checkWord() {
                 var guess = document.getElementById("guess").value;
                 var checkResult = check(guess);
                 if(checkResult.length &gt; 8){ <span style="color: #ddd;"><i>//if there is an error message</i></span>
-                    history_list.innerHTML = checkResult;
-                    document.getElementById("guessbutton").style.visibility = false; 
-                    document.getElementById("restart").style.visibility = true; 
+                history.innerHTML = checkResult;
                 }
                 else {
-                    history_list.innerHTML = history_list.innerHTML + checkResult;
+                    history.innerHTML = history.innerHTML + checkResult;
                 }
                 <span style="color: #ddd;"><i>//resets the inpurt field for player convenience</i></span>
                 document.getElementById("guess").value = "";
@@ -311,9 +420,7 @@ for(let i = 0; i < 26; i++){
             
             function rs(){
                 reset();
-                document.getElementById("guessbutton").style.visibility = true; 
-                document.getElementById("restart").style.visibility = false;
-                history_list.innerHTML = ""; 
+                history.innerHTML = ""; 
             }
         &lt;/script&gt;
     &lt;/body&gt;
@@ -322,6 +429,30 @@ for(let i = 0; i < 26; i++){
             </li>
 
         </ol>
+
+        <h2 >Playing Your Game</h2>
+        <p> To start playing, first go to the node.js terminal and ru nthe following commands:
+            <blockquote>
+                <code>
+                    <span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm run asbuild<br/> 
+                    <span class="cmdprompt">C:\Users\andrea\Documents\assemblyscript-app&gt; </span>npm start
+                </code>
+            </blockquote>
+
+            The response should say that it's copied the local address to your clipboard. Go to your browser, paste the address, and start playing!
+        </p>
+        <br/>
+        <br/>       
+        <h4><span class="blush">Well done! You've learned how to setup node.js and WebAssembly, and code a simple application using Assembly Script.</span></h4>
+        <br/>
+        <hr/>
+
+        <h2 >References</h2>
+        <p>Danilo, A. and Gandluri, D. 2017. Real World WebAssembly (Chrome Dev Summit 2017). <br/><br/>
+            Hayes, B. 2022. Keynote: View from Above: Birds-eye View of the Wasm Landscape and Where It's Heading. <br/><br/>
+            Low Level Learning 2022. <i>What is WebAssembly and Is It Better Than JavaScript? | WASM Breakdown for Beginners and Web Devs.</i> Available at: https://www.youtube.com/watch?v=sR22HtWztrY [Accessed: 11 September 2022]. <br/><br/>
+            Royse, G. 2020. An introduction to WebAssembly | DevNation Day 2020. <br/>
+        </p>
     </div>
     </body>
 
